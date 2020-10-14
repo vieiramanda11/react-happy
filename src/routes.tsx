@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Landing from "./pages/Landing";
 import OrphanagesMap from "./pages/OrphanagesMap";
@@ -8,10 +8,12 @@ import CreateOrphanage from "./pages/CreateOrphanage";
 function Routes() {
   return (
     <BrowserRouter>
-      <Route exact path="/" component={Landing} />
-      <Route path="/app" component={OrphanagesMap} />
-      <Route path="/orphanages/create" exact component={CreateOrphanage} />
-      <Route path="/orphanages/:id" component={Orphanage} />
+      <Switch>
+        <Route exact path="/" component={Landing} />
+        <Route exact path="/app" component={OrphanagesMap} />
+        <Route exact path="/orphanages/create" component={CreateOrphanage} />
+        <Route exact path="/orphanages/:id" component={Orphanage} />
+      </Switch>
     </BrowserRouter>
   );
 }
