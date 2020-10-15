@@ -28,6 +28,7 @@ interface OrphanageParams {
 export default function Orphanage() {
   const params = useParams<OrphanageParams>();
   const [orphanage, setOrphanage] = useState<Orphanage>();
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   useEffect(() => {
     api.get(`orphanages/${params.id}`).then((response) => {
@@ -44,19 +45,26 @@ export default function Orphanage() {
       <Sidebar />
       <main>
         <div className="orphanage-details">
-          <img src={orphanage.images[0].url} alt={orphanage.name} />
+          <img
+            src={orphanage.images[activeImageIndex].url}
+            alt={orphanage.name}
+          />
 
           <div className="images">
-              {orphanage.images.map(image => {
-                return (
-                  <button className="active" type="button" key={orphanage.name}>
-                  <img
-                    src={orphanage.images[0].url}
-                    alt={orphanage.name}
-                  />
+            {orphanage.images.map((image, index) => {
+              return (
+                <button 
+                  className={activeImageIndex === index ? 'active' : ''}
+                  type="button" 
+                  key={orphanage.name}
+                  onClick={() => {
+                    setActiveImageIndex(index);
+                  }}
+                >
+                  <img src={image.url} alt={orphanage.name} />
                 </button>
-                )
-              })}
+              );
+            })}
           </div>
 
           <div className="orphanage-details-content">
@@ -85,7 +93,12 @@ export default function Orphanage() {
               </Map>
 
               <footer>
-                <a target="_blank" href={`https://www.google.com/maps/dir/?api=1&destination=${orphanage.latitude},${orphanage.longitude}`}>See routes on Google Maps</a>
+                <a
+                  target="_blank"
+                  href={`https://www.google.com/maps/dir/?api=1&destination=${orphanage.latitude},${orphanage.longitude}`}
+                >
+                  See routes on Google Maps
+                </a>
               </footer>
             </div>
 
